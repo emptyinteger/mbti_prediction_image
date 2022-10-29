@@ -61,8 +61,6 @@ def mean_answer_label(*preds):
 
 mod = sys.modules[__name__]
 
-import matplotlib.pyplot as plt
-
 def sentence_convert_data(data):
     global tokenizer
     
