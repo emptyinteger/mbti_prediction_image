@@ -13,8 +13,8 @@ RUN git clone https://github.com/emptyinteger/mbti_prediction_image.git
 # install packages
 RUN pip install -r mbti_prediction_image/requirements.txt
 
-# git repository 의 lambda_function.py 를 Container 내부의 /var/task/ 로 이동
-RUN cp mbti_prediction_image/lambda_function.py /var/task/
+# git repository 의 Lambda_function.py 를 Container 내부의 /var/task/ 로 이동
+RUN cp mbti_prediction_image/Lambda_function.py /var/task/
 
-# lambda_function.handler 실행
-CMD ["lambda_function.handler"]
+# Lambda_function.handler 실행
+CMD ["Lambda_function.handler"]
