@@ -110,7 +110,6 @@ traitlets==5.5.0
 transformers==4.23.1
 Twisted==22.1.0
 typeguard==2.13.3
-typing_extensions==4.4.0
 ufw==0.36.1
 unattended-upgrades==0.1
 urllib3==1.26.5
