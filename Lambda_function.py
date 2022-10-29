@@ -109,4 +109,4 @@ def handler(event, context):
 	# 결과 생성
   result = api_predict(text)
 	# 결과 반환
-  return jsonify(result)
+  return json.dumps(result)
