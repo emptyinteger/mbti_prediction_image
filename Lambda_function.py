@@ -109,4 +109,7 @@ def handler(event, context):
 	# 결과 생성
   result = api_predict(text)
 	# 결과 반환
-  return json.dumps(result)
+  return return {
+        'statusCode': 200,
+        'body': json.dumps(result)
+    }
