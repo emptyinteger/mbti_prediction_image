@@ -82,10 +82,10 @@ download_s3()
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 SEQ_LEN = 512
-tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', cache_dir='/tmp')
+tokenizer = BertTokenizer.from_pretrained('temp/bert-base-multilingual-cased/vocab.txt',local_files_only=True)
 
 def create_mbti_bert():
-  model = TFBertModel.from_pretrained("bert-base-multilingual-cased", from_pt=True, cache_dir='/tmp')
+  model = TFBertModel.from_pretrained('/temp/bert-base-multilingual-cased/pytorch_model.bin', local_files_only=True)
   token_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_word_ids')
   mask_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_masks')
   segment_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_segment')
