@@ -15,13 +15,22 @@ import tensorflow_addons as tfa
 import io
 import boto3
 
+s3 = boto3.client('s3')
+
+BUCKET_NAME = 'mbti-predict-s3' 
+OBJECT_NAME = ['mbti_model.h5','vocab.txt','tokenizer_config.json','special_tokens_map.json','config.json'] 
+PATH_NAME = '/tmp/'
+
+for obj in OBJECT_NAME:
+  s3.download_file(BUCKET_NAME, OBJECT_NAME, PATH_NAME+OBJECT_NAME)
+
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 SEQ_LEN = 512
-tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', cache_dir="/tmp/")
+tokenizer = BertTokenizer.from_pretrained('./tmp', local_files_only=True)
 
 def create_mbti_bert():
-  model = TFBertModel.from_pretrained("bert-base-multilingual-cased", cache_dir="/tmp/", from_pt=True)
+  model = TFBertModel.from_pretrained('./tmp', local_files_only=True)
   token_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_word_ids')
   mask_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_masks')
   segment_inputs = tf.keras.layers.Input((SEQ_LEN,), dtype=tf.int32, name='input_segment')
@@ -37,16 +46,6 @@ import sys
 mod = sys.modules[__name__]
 path = "./" 
 mbti_model = create_mbti_bert()
-  
-# 버킷명
-BUCKET_NAME = 'mbti-predict-s3'  
-# 객체명
-OBJECT_NAME = 'mbti_model.h5' 
-# 파일을 저장할 위치, AWS Lambda에서는 오직 /tmp 에만 파일을 작성할 수 있다.
-FILE_NAME = '/tmp/mbti_model.h5' 
-
-s3 = boto3.client('s3')
-s3.download_file(BUCKET_NAME, OBJECT_NAME, FILE_NAME)
 
 mbti_model.load_weights("/tmp/mbti_model.h5")
 
