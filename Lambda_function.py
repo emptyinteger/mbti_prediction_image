@@ -106,6 +106,9 @@ def api_predict(sentence):
 def handler(event, context):
   result = api_predict(event["text"])
   return {
-        'statusCode': 200,
-        'body': json.dumps(result)
+    "statusCode": 200,
+    "headers": {
+      "Content-Type": "application/json"
+      },
+    "body": json.dumps(result)
     }
