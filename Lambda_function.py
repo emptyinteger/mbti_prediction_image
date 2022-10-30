@@ -14,23 +14,68 @@ import re
 import tensorflow_addons as tfa
 import io
 import boto3
+from pathlib import Path
 
-def download_dir(client, resource, dist, local='/tmp', bucket='your_bucket'):
-    paginator = client.get_paginator('list_objects')
-    for result in paginator.paginate(Bucket=bucket, Delimiter='/', Prefix=dist):
-        if result.get('CommonPrefixes') is not None:
-            for subdir in result.get('CommonPrefixes'):
-                download_dir(client, resource, subdir.get('Prefix'), local, bucket)
-        for file in result.get('Contents', []):
-            dest_pathname = os.path.join(local, file.get('Key'))
-            if not os.path.exists(os.path.dirname(dest_pathname)):
-                os.makedirs(os.path.dirname(dest_pathname))
-            if not file.get('Key').endswith('/'):
-                resource.meta.client.download_file(bucket, file.get('Key'), dest_pathname)
+
+def get_file_folders(s3_client, bucket_name, prefix=""):
+    file_names = []
+    folders = []
+
+    default_kwargs = {
+        "Bucket": bucket_name,
+        "Prefix": prefix
+    }
+    next_token = ""
+
+    while next_token is not None:
+        updated_kwargs = default_kwargs.copy()
+        if next_token != "":
+            updated_kwargs["ContinuationToken"] = next_token
+
+        response = s3_client.list_objects_v2(**default_kwargs)
+        contents = response.get("Contents")
+
+        for result in contents:
+            key = result.get("Key")
+            if key[-1] == "/":
+                folders.append(key)
+            else:
+                file_names.append(key)
+
+        next_token = response.get("NextContinuationToken")
+
+    return file_names, folders
+
+
+def download_files(s3_client, bucket_name, local_path, file_names, folders):
+
+    local_path = Path(local_path)
+
+    for folder in folders:
+        folder_path = Path.joinpath(local_path, folder)
+        folder_path.mkdir(parents=True, exist_ok=True)
+
+    for file_name in file_names:
+        file_path = Path.joinpath(local_path, file_name)
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        s3_client.download_file(
+            bucket_name,
+            file_name,
+            str(file_path)
+        )
+
+
 def _start():
-    client = boto3.client('s3')
-    resource = boto3.resource('s3')
-    download_dir(client, resource, 'clientconf/', '/tmp', bucket='mbti-predict-s3')
+    client = boto3.client("s3")
+
+    file_names, folders = get_file_folders(client, "mbti-predict-s3")
+    download_files(
+        client,
+        "mbti-predict-s3"
+        "/tmp",
+        file_names,
+        folders
+    )
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
