@@ -104,9 +104,7 @@ def api_predict(sentence):
     return result_dict
 
 def handler(event, context):
-  body = event["body-json"]
-	
-  text = body["text"]
+  text = event["text"]
 	# 결과 생성
   result = api_predict(text)
 	# 결과 반환
