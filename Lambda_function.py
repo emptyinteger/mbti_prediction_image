@@ -14,7 +14,6 @@ import re
 import tensorflow_addons as tfa
 import io
 import boto3
-import zipfile
 
 s3 = boto3.client('s3')
 
