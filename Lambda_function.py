@@ -104,7 +104,7 @@ def api_predict(sentence):
     return result_dict
 
 def handler(event, context):
-  result = api_predict(event["text"])
+  result = api_predict(event)
   return {
     "statusCode": 200,
     "headers": {
