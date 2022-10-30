@@ -14,11 +14,16 @@ import re
 import tensorflow_addons as tfa
 import io
 import boto3
+from cloudpathlib import CloudPath
+
+cp = CloudPath("S3 URL")
+cp.download_to("./tmp")
+
 
 s3 = boto3.client('s3')
 
 BUCKET_NAME = 'mbti-predict-s3' 
-OBJECT_NAME = ['mbti_model.h5','vocab.txt','tokenizer_config.json','special_tokens_map.json','config.json','tf_model.h5'] 
+OBJECT_NAME = ['mbti_model.h5'] 
 PATH_NAME = '/tmp/'
 
 for obj in OBJECT_NAME:
