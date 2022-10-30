@@ -100,7 +100,8 @@ def api_predict(sentence):
     x = np.arange(16)
     predi = cat_dict[preds]
     result_dict.update({'mbti':predi})
-    
+    result_dict.update({'statusCode':200})
+
     return result_dict
 
 def handler(event, context):
@@ -109,7 +110,4 @@ def handler(event, context):
 	# 결과 생성
   result = api_predict(text)
 	# 결과 반환
-  return return {
-        'statusCode': 200,
-        'body': json.dumps(result)
-    }
+  return json.dumps(result)
