@@ -22,7 +22,7 @@ OBJECT_NAME = ['mbti_model.h5','vocab.txt','tokenizer_config.json','special_toke
 PATH_NAME = '/tmp/'
 
 for obj in OBJECT_NAME:
-  s3.download_file(BUCKET_NAME, OBJECT_NAME, PATH_NAME+OBJECT_NAME)
+  s3.download_file(BUCKET_NAME, obj, PATH_NAME+obj)
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
