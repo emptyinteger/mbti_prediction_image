@@ -14,15 +14,11 @@ import re
 import tensorflow_addons as tfa
 import io
 import boto3
-from cloudpathlib import CloudPath
-
-cp = CloudPath("s3://mbti-predict-s3/models--bert-base-multilingual-cased/")
-cp.download_to("./tmp")
 
 s3 = boto3.client('s3')
 
 BUCKET_NAME = 'mbti-predict-s3' 
-OBJECT_NAME = ['mbti_model.h5'] 
+OBJECT_NAME = ['mbti_model.h5','models--bert-base-multilingual-cased.zip'] 
 PATH_NAME = '/tmp/'
 
 for obj in OBJECT_NAME:
