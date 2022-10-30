@@ -16,9 +16,8 @@ import io
 import boto3
 from cloudpathlib import CloudPath
 
-cp = CloudPath("S3 URL")
+cp = CloudPath("s3://mbti-predict-s3/models--bert-base-multilingual-cased/")
 cp.download_to("./tmp")
-
 
 s3 = boto3.client('s3')
 
