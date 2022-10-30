@@ -65,7 +65,7 @@ def download_files(s3_client, bucket_name, local_path, file_names, folders):
         )
 
 
-def _start():
+def download_s3():
     client = boto3.client("s3")
 
     file_names, folders = get_file_folders(client, "mbti-predict-s3")
@@ -76,7 +76,9 @@ def _start():
         file_names,
         folders
     )
-
+    
+download_s3()
+    
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 SEQ_LEN = 512
