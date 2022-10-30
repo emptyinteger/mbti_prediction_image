@@ -44,7 +44,6 @@ def create_mbti_bert():
 
 import sys
 mod = sys.modules[__name__]
-path = "./" 
 mbti_model = create_mbti_bert()
 
 mbti_model.load_weights("/tmp/mbti_model.h5")
