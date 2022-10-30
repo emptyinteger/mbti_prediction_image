@@ -18,11 +18,15 @@ import boto3
 s3 = boto3.client('s3')
 
 BUCKET_NAME = 'mbti-predict-s3' 
-OBJECT_NAME = ['mbti_model.h5','models--bert-base-multilingual-cased.zip'] 
+OBJECT_NAME = ['mbti_model.h5','cache.zip'] 
 PATH_NAME = '/tmp/'
+
 
 for obj in OBJECT_NAME:
   s3.download_file(BUCKET_NAME, obj, PATH_NAME+obj)
+
+os.system("pwd")
+os.system("unzip ../../tmp/cache.zip -d ../../tmp")
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
