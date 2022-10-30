@@ -104,10 +104,7 @@ def api_predict(sentence):
     return result_dict
 
 def handler(event, context):
-  text = event["text"]
-	# 결과 생성
-  result = api_predict(text)
-	# 결과 반환
+  result = api_predict(event["text"])
   return {
         'statusCode': 200,
         'body': json.dumps(result)
