@@ -14,6 +14,7 @@ import re
 import tensorflow_addons as tfa
 import io
 import boto3
+import zipfile
 
 s3 = boto3.client('s3')
 
@@ -25,8 +26,8 @@ PATH_NAME = '/tmp/'
 for obj in OBJECT_NAME:
   s3.download_file(BUCKET_NAME, obj, PATH_NAME+obj)
 
+zipfile.ZipFile('/tmp/cache.zip').extractall('/tmp')
 os.system("pwd")
-os.system("unzip ../../tmp/cache.zip -d ../../tmp")
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
