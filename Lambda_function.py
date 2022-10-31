@@ -26,7 +26,7 @@ for obj in OBJECT_NAME:
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 SEQ_LEN = 512
-tokenizer = BertTokenizer.from_pretrained('/tmp/vocab.txt', local_files_only=True, cache_dir='/tmp')
+tokenizer = BertTokenizer.from_pretrained('/tmp', local_files_only=True, cache_dir='/tmp')
 
 def create_mbti_bert():
   model = TFBertModel.from_pretrained('/tmp/tf_model.h5',config='/tmp/config.json', local_files_only=True, cache_dir='/tmp')
